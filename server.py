@@ -7,6 +7,18 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from google import genai
 from google.genai import types
 
+# Load environment variables from .env if present
+if os.path.exists(".env"):
+    with open(".env", "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                parts = line.split("=", 1)
+                if len(parts) == 2:
+                    key = parts[0].strip()
+                    val = parts[1].strip().strip("'\"")
+                    os.environ[key] = val
+
 # ----------------------------------------------------------------------
 # HTTP Request Handler
 # ----------------------------------------------------------------------
