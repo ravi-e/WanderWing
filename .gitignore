@@ -1,0 +1,14 @@
+.tmp/
+.env
+credentials.json
+token.json
+__pycache__/
+*.pyc
+last_gemini_response.txt
+error_log.txt
+error_log.txt*
+*.log
+.vscode/
+.idea/
+.DS_Store
+node_modules/

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WanderWing - Personalized Travel Planner</title>
+  <meta name="description" content="Generate beautiful, personalized travel itineraries instantly with WanderWing. Design your next adventure based on dates, companion type, and budget.">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+  <!-- Floating Dark Mode Toggle -->
+  <button class="dark-mode-toggle" id="dark-mode-btn" aria-label="Toggle dark mode">
+    <span class="toggle-icon">🌙</span>
+  </button>
+
+  <main class="app-container">
+    <article class="planner-card" id="planner-form-card">
+      
+      <!-- Header Banner Section -->
+      <header class="banner-section">
+        <div class="banner-pattern" aria-hidden="true"></div>
+        <div class="banner-illustration" aria-hidden="true"></div>
+        <div class="banner-text">
+          <h1>WanderWing</h1>
+          <p>Where should we wander next?</p>
+          <span class="banner-blurb">✨ Live-grounded, hyper-personalized itineraries with built-in accessibility safeguards for seniors, families, couples, and friends.</span>
+        </div>
+        
+        <!-- Dedicated Mascot Container -->
+        <div class="mascot-container" aria-label="Mascot companion">
+          <div class="mascot-placeholder">
+            <!-- Icon/Compass mascot styled in CSS -->
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Form Content Area -->
+      <section class="form-content">
+        <form class="form-grid" action="#" method="POST" onsubmit="event.preventDefault();">
+          
+          <!-- Source & Destination row -->
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label class="form-label" for="source-input">
+                <span>📍</span> Starting Point
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🏡</span>
+                <input class="form-input" type="text" id="source-input" name="source" placeholder="e.g. New York, USA" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="destination-input">
+                <span>📍</span> Destination
+              </label>
+              <div class="destination-group">
+                <div class="input-wrapper" style="width: 100%;">
+                  <span class="input-icon">🌴</span>
+                  <input class="form-input" type="text" id="destination-input" name="destination" placeholder="e.g. Tokyo, Japan" required>
+                </div>
+                <button type="button" class="btn-add-destination" id="add-destination-btn" aria-label="Add another destination">
+                  <span>+</span> Add Destination
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trip Dates Row -->
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label class="form-label" for="start-date">
+                <span>📅</span> Trip Start Date
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🛫</span>
+                <input class="form-input" type="date" id="start-date" name="start_date" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="end-date">
+                <span>📅</span> Trip End Date
+              </label>
+              <div class="input-wrapper">
+                <span class="input-icon">🛬</span>
+                <input class="form-input" type="date" id="end-date" name="end_date" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Travelers Counter Layout -->
+          <div class="form-group">
+            <span class="form-label">
+              <span>👥</span> How many travelers are going?
+            </span>
+            <div class="travelers-container">
+              <div class="counter-grid">
+                
+                <div class="counter-item">
+                  <label for="travelers-adults">Adults</label>
+                  <div class="counter-control">
+                    <button type="button" class="btn-counter-decrement" data-target="travelers-adults" aria-label="Decrease Adults">−</button>
+                    <input type="number" id="travelers-adults" name="adults" min="1" max="20" value="1" required>
+                    <button type="button" class="btn-counter-increment" data-target="travelers-adults" aria-label="Increase Adults">+</button>
+                  </div>
+                </div>
+
+                <div class="counter-item">
+                  <label for="travelers-children">Children</label>
+                  <div class="counter-control">
+                    <button type="button" class="btn-counter-decrement" data-target="travelers-children" aria-label="Decrease Children">−</button>
+                    <input type="number" id="travelers-children" name="children" min="0" max="20" value="0" required>
+                    <button type="button" class="btn-counter-increment" data-target="travelers-children" aria-label="Increase Children">+</button>
+                  </div>
+                </div>
+
+                <div class="counter-item">
+                  <label for="travelers-seniors">Senior Citizens</label>
+                  <div class="counter-control">
+                    <button type="button" class="btn-counter-decrement" data-target="travelers-seniors" aria-label="Decrease Senior Citizens">−</button>
+                    <input type="number" id="travelers-seniors" name="seniors" min="0" max="20" value="0" required>
+                    <button type="button" class="btn-counter-increment" data-target="travelers-seniors" aria-label="Increase Senior Citizens">+</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Trip Type Selection Cards -->
+          <div class="form-group">
+            <span class="form-label">
+              <span>✨</span> Choose your trip vibes
+            </span>
+            <div class="selection-grid">
+              
+              <label class="radio-card">
+                <input type="radio" name="trip_type" value="couple" checked>
+                <div class="radio-card-content">
+                  <span class="radio-card-icon" aria-hidden="true">👩‍❤️‍👨</span>
+                  <span class="radio-card-title">Couple</span>
+                  <span class="radio-card-subtitle">Romantic getaway</span>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input type="radio" name="trip_type" value="friends">
+                <div class="radio-card-content">
+                  <span class="radio-card-icon" aria-hidden="true">🎒</span>
+                  <span class="radio-card-title">Friends</span>
+                  <span class="radio-card-subtitle">Adventure & fun</span>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input type="radio" name="trip_type" value="family">
+                <div class="radio-card-content">
+                  <span class="radio-card-icon" aria-hidden="true">🏡</span>
+                  <span class="radio-card-title">Family</span>
+                  <span class="radio-card-subtitle">Cozy & complete</span>
+                </div>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- Budget Selection Cards -->
+          <div class="form-group">
+            <span class="form-label">
+              <span>💵</span> Select your budget tier
+            </span>
+            <div class="budget-grid">
+              
+              <label class="radio-card">
+                <input type="radio" name="budget_tier" value="budget_friendly">
+                <div class="radio-card-content budget-card-content">
+                  <span class="budget-tier" aria-hidden="true">$</span>
+                  <span class="radio-card-title">Budget-Friendly</span>
+                  <span class="radio-card-subtitle">Smart & cost-effective</span>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input type="radio" name="budget_tier" value="mid_range" checked>
+                <div class="radio-card-content budget-card-content">
+                  <span class="budget-tier" aria-hidden="true">$$</span>
+                  <span class="radio-card-title">Mid-Range</span>
+                  <span class="radio-card-subtitle">Comfort & balanced</span>
+                </div>
+              </label>
+
+              <label class="radio-card">
+                <input type="radio" name="budget_tier" value="premium">
+                <div class="radio-card-content budget-card-content">
+                  <span class="budget-tier" aria-hidden="true">$$$</span>
+                  <span class="radio-card-title">Premium</span>
+                  <span class="radio-card-subtitle">Luxury & indulgence</span>
+                </div>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <footer class="submit-section">
+            <button type="submit" class="btn-suggest-plan" id="submit-btn">
+              Suggest Plan
+            </button>
+          </footer>
+
+        </form>
+    </article>
+
+    <!-- Final Itinerary Output UI Container -->
+    <section id="itinerary-result" class="itinerary-result-card" style="display: none;"></section>
+  </main>
+
+  <!-- Full-screen Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay" aria-hidden="true">
+    <div class="loading-container">
+      <div class="loading-spinner">
+        <svg class="loading-compass" viewBox="0 0 100 100" width="100" height="100" aria-hidden="true">
+          <!-- Outer Ring -->
+          <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" stroke-width="4" />
+          <!-- Inner Dial -->
+          <circle cx="50" cy="50" r="40" fill="none" stroke="var(--secondary)" stroke-width="1" stroke-dasharray="2 2" opacity="0.4" />
+          <!-- Direction Markers -->
+          <line x1="50" y1="8" x2="50" y2="16" stroke="var(--primary)" stroke-width="3" />
+          <line x1="50" y1="84" x2="50" y2="92" stroke="var(--secondary)" stroke-width="3" />
+          <line x1="8" y1="50" x2="16" y2="50" stroke="var(--secondary)" stroke-width="3" />
+          <line x1="84" y1="50" x2="92" y2="50" stroke="var(--secondary)" stroke-width="3" />
+          <!-- Central Pivot Pin -->
+          <circle cx="50" cy="50" r="4.5" fill="var(--secondary)" />
+          <!-- Rotating Needle -->
+          <g class="compass-needle">
+            <!-- North Dial (Terracotta Red) -->
+            <polygon points="50,15 45,50 50,47" fill="var(--primary)" />
+            <polygon points="50,15 55,50 50,47" fill="var(--accent-ochre)" />
+            <!-- South Dial (Navy Slate) -->
+            <polygon points="50,85 45,50 50,53" fill="var(--secondary)" />
+            <polygon points="50,85 55,50 50,53" fill="var(--accent-sage)" />
+          </g>
+        </svg>
+      </div>
+      <p class="loading-title">Creating your itinerary...</p>
+      <p class="loading-message" id="loading-message">Packing bags...</p>
+      
+      <!-- Premium Progress Bar -->
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Lingo & Etiquette Modal -->
+  <div class="modal-overlay" id="tips-modal" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <header class="modal-header">
+        <h3 id="tips-modal-title">✨ Local Lingo & Etiquette</h3>
+        <button class="btn-close-modal" id="tips-modal-close" aria-label="Close modal">&times;</button>
+      </header>
+      <div class="modal-body" id="tips-modal-body">
+        <!-- Dynamic content injected asynchronously -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Integrated Visa & Entry Regulations Modal -->
+  <div class="modal-overlay" id="visa-modal" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <header class="modal-header">
+        <h3>🛂 Passport & Visa Requirements</h3>
+        <button class="btn-close-modal" id="visa-modal-close" aria-label="Close modal">&times;</button>
+      </header>
+      <div class="modal-body" id="visa-modal-body">
+        <!-- Dynamic content injected asynchronously -->
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
