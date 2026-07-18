@@ -54,13 +54,19 @@ graph TD
 ### 1. Prerequisites
 Ensure you have Python 3.10+ installed and a valid Gemini API key.
 
-### 2. Set Up Environment Variables
+### 2. Install Dependencies
+Install the required Google GenAI SDK:
+```bash
+pip install google-genai
+```
+
+### 3. Set Up Environment Variables
 Create a `.env` file in the root directory:
 ```bash
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-### 3. Run the Web Server
+### 4. Run the Web Server
 Launch the development server:
 ```bash
 python server.py
