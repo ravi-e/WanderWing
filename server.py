@@ -228,10 +228,11 @@ class TravelPlannerHandler(BaseHTTPRequestHandler):
 
         print(f"[INFO] Invoking Gemini API for trip to {primary_dest}...")
         api_key = os.environ.get("GEMINI_API_KEY")
+        model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
         client = genai.Client(api_key=api_key)
         
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model=model_name,
             contents=prompt,
             config=types.GenerateContentConfig(
                 tools=[types.Tool(google_search=types.GoogleSearch())]
@@ -294,9 +295,10 @@ class TravelPlannerHandler(BaseHTTPRequestHandler):
         """
         print(f"[INFO] Fetching travel tips for city: {city}...")
         api_key = os.environ.get("GEMINI_API_KEY")
+        model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
         client = genai.Client(api_key=api_key)
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model=model_name,
             contents=prompt,
             config=types.GenerateContentConfig(
                 tools=[types.Tool(google_search=types.GoogleSearch())]
@@ -339,9 +341,10 @@ class TravelPlannerHandler(BaseHTTPRequestHandler):
         """
         print(f"[INFO] Fetching visa guidelines from {source} to {destination}...")
         api_key = os.environ.get("GEMINI_API_KEY")
+        model_name = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
         client = genai.Client(api_key=api_key)
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model=model_name,
             contents=prompt,
             config=types.GenerateContentConfig(
                 tools=[types.Tool(google_search=types.GoogleSearch())]
