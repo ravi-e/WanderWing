@@ -12,3 +12,6 @@ error_log.txt*
 .idea/
 .DS_Store
 node_modules/
+.wrangler/
+.dev.vars
+

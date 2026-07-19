@@ -22,6 +22,9 @@ const loadingMessages = [
   "✨ Sprinkling a dash of local magic onto your itinerary..."
 ];
 
+// API base URL for Cloudflare Worker backend (empty for relative calls on same origin)
+const API_BASE = '';
+
 // Global caches for background pre-fetching
 let cachedTips = {};
 let cachedVisa = null;
@@ -139,7 +142,7 @@ function preFetchTipsAndVisa(data) {
   const destCountry = getCountry(data.primaryDestination);
 
   // Tips background pre-fetch
-  fetch('/api/fetch-tips', {
+  fetch(`${API_BASE}/api/fetch-tips`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ city: primaryCity })
@@ -162,7 +165,7 @@ function preFetchTipsAndVisa(data) {
   });
 
   // Visa background pre-fetch
-  fetch('/api/fetch-visa', {
+  fetch(`${API_BASE}/api/fetch-visa`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ source: sourceCountry, destination: destCountry })
@@ -874,7 +877,7 @@ function initFormSubmission() {
    */
   async function fetchItineraryFromAPI(payload) {
     // Replace with your actual backend endpoint (e.g. '/api/generate-itinerary' or serverless function)
-    const response = await fetch('/api/suggest-plan', {
+    const response = await fetch(`${API_BASE}/api/suggest-plan`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
